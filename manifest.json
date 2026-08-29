@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Maps Lead Scraper",
+  "version": "0.2.0",
+  "description": "Scrape Google Maps business listings for lead generation with email enrichment and analytics. Runs in the Chrome side panel so it stays open when you switch tabs.",
+  "action": {
+    "default_title": "Open Lead Scraper"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel.html"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "alarms",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://www.google.com/maps/*",
+    "https://*/*",
+    "http://*/*"
+  ],
+  "background": { "service_worker": "src/background/background.js", "type": "module" },
+  "content_scripts": [
+    {
+      "matches": ["https://www.google.com/maps/*"],
+      "js": ["src/content/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "content_security_policy": { "extension_pages": "script-src 'self'; object-src 'self'" }
+}
